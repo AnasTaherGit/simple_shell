@@ -55,6 +55,7 @@ char **_format_input(char *line)
 	}
 	command[token_count] = NULL;
 
+	free(token);
 	return (command);
 }
 

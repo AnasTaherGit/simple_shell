@@ -10,11 +10,13 @@
 int main(int argc, char **argv)
 {
 
-	char *line, **command;
+	char *line = NULL;
+	char **command = NULL;
 	int status = 1;
 
 	(void)argc;
-	do {
+	do
+	{
 		if ((isatty(STDIN_FILENO) == 1) && (isatty(STDOUT_FILENO) == 1))
 			write(STDOUT_FILENO, PROMPT, PROMPT_LEN);
 		else
@@ -22,6 +24,7 @@ int main(int argc, char **argv)
 			line = _get_input();
 			command = _format_input(line);
 			launch_process(command, argv[0]);
+			free(command);
 			free(line);
 			return (0);
 		}
@@ -30,10 +33,12 @@ int main(int argc, char **argv)
 		command = _format_input(line);
 		if (*command == NULL)
 		{
+			free(command);
 			free(line);
 			continue;
 		}
 		launch_process(command, argv[0]);
+		free(command);
 		free(line);
 
 	} while (status);
