@@ -28,7 +28,6 @@ int cmd_handle(char **cmd_args, char **main_argv)
 	}
 	else
 	{
-		write(STDERR_FILENO, "programe path not found\n", 24);
 		free(path);
 		errno = ENOENT;
 		perror(main_argv[0]);

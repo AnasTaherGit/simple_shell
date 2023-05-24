@@ -9,6 +9,7 @@
 void free_array(char **array, int size)
 {
 	int i = 0;
+
 	for (i = 0; i < size; i++)
 		free(array[i]);
 	free(array);

@@ -12,7 +12,8 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
-#define TOKEN_DELIM " :\t\r\n\a"
+#define TOKEN_DELIM " \t\r\n\a"
+#define PATH_DELIM ":"
 #define SIZEOFCHAR sizeof(char *)
 
 #define PROMPT "$ "
@@ -62,7 +63,7 @@ void free_array(char **array, int size);
 
 /*helpers.c*/
 char *_get_input(void);
-char **_get_tokens(char *line);
+char **_get_tokens(char *line, const char *delimiter);
 int count_tokens(char *line, const char *delimiter);
 void handler_function(int signum);
 

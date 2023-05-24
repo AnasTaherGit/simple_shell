@@ -31,7 +31,7 @@ char **get_path_directories(char *path_env)
 	char **path_dirs = NULL;
 	char *path_copy = _strdup(path_env);
 
-	path_dirs = _get_tokens(path_copy);
+	path_dirs = _get_tokens(path_copy, PATH_DELIM);
 	free(path_copy);
 
 	return (path_dirs);
@@ -66,24 +66,24 @@ char *get_full_path(char *cmd)
 }
 /**
  * _getenv - gives the value of a variable
- * @var_name: the variable
+ * @name: name of the variable
  * Return: the value of the variable
  */
 
-char *_getenv(char *var_name)
+char *_getenv(char *name)
 {
-	char *value = NULL;
-	int i, n;
+	char **env = environ;
+	int i = 0;
 
-	n = _strlen(var_name);
+	size_t name_len = _strlen(name);
 
-	for (i = 0; environ[i] != NULL; i++)
+	for (i = 0; env[i] != NULL; i++)
 	{
-		if (_strncmp(var_name, environ[i], n) == 0)
+		if (_strncmp(name, env[i], name_len) == 0 && env[i][name_len] == '=')
 		{
-			value = environ[i] + n + 1;
-			break;
+			return (&env[i][name_len + 1]);
 		}
 	}
-	return (value);
+
+	return (NULL);
 }

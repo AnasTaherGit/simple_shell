@@ -15,14 +15,13 @@ int main(int argc, char **argv)
 	int status = 1;
 
 	(void)argc;
-	do
-	{
+	do {
 		if ((isatty(STDIN_FILENO) == 1) && (isatty(STDOUT_FILENO) == 1))
 			write(STDOUT_FILENO, PROMPT, PROMPT_LEN);
 		else
 		{
 			line = _get_input();
-			command = _get_tokens(line);
+			command = _get_tokens(line, TOKEN_DELIM);
 			cmd_handle(command, argv);
 			free(command);
 			free(line);
@@ -30,7 +29,7 @@ int main(int argc, char **argv)
 		}
 
 		line = _get_input();
-		command = _get_tokens(line);
+		command = _get_tokens(line, TOKEN_DELIM);
 		if (*command == NULL)
 		{
 			free(command);

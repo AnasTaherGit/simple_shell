@@ -28,17 +28,18 @@ char *_get_input(void)
 /**
  * _get_tokens - format line
  * @line: line
+ * @delimiters: delimiters
  * Return: command
  *
  */
 
-char **_get_tokens(char *line)
+char **_get_tokens(char *line, const char *delimiters)
 {
 	char **command = NULL;
 	char *token = NULL;
 	int token_count, i;
 
-	token_count = count_tokens(line, TOKEN_DELIM);
+	token_count = count_tokens(line, delimiters);
 
 	command = malloc(sizeof(char *) * (token_count + 1));
 	if (command == NULL)
@@ -47,11 +48,11 @@ char **_get_tokens(char *line)
 		exit(EXIT_FAILURE);
 	}
 
-	token = strtok(line, TOKEN_DELIM);
+	token = strtok(line, delimiters);
 	for (i = 0; i < token_count; i++)
 	{
 		command[i] = token;
-		token = strtok(NULL, TOKEN_DELIM);
+		token = strtok(NULL, delimiters);
 	}
 	command[token_count] = NULL;
 
