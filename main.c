@@ -57,15 +57,23 @@ int launch_process(char **command)
 
 	command_no_args[0] = command[0];
 	command_no_args[1] = NULL;
-	pid = fork();
-	if (pid == 0)
+	if (command[1] != NULL)
 	{
-		if (execve(command[0], command_no_args, environ) == -1)
-			perror("./shell");
+		errno = ENOENT;
+		perror("./shell");
 	}
 	else
 	{
-		wait(NULL);
+		pid = fork();
+		if (pid == 0)
+		{
+			if (execve(command[0], command_no_args, environ) == -1)
+				perror("./shell");
+		}
+		else
+		{
+			wait(NULL);
+		}
 	}
 	free(command_no_args);
 	return (1);
@@ -79,7 +87,7 @@ void handler_function(int signum)
 {
 	if (signum == SIGINT)
 	{
-		write(STDOUT_FILENO, "\n($) ", strlen("\n($) "));
+		write(STDOUT_FILENO, "\n", strlen("\n"));
 		exit(EXIT_SUCCESS);
 	}
 }
