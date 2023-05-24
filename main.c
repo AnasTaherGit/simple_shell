@@ -53,19 +53,21 @@ int main(void)
 int launch_process(char **command)
 {
 	pid_t pid;
-	char *const args[] = {command[0], NULL};
+	char **command_no_args = malloc(2 * sizeof(char *));
 
+	command_no_args[0] = command[0];
+	command_no_args[1] = NULL;
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(command[0], args, environ) == -1)
+		if (execve(command[0], command_no_args, environ) == -1)
 			perror("./shell");
 	}
 	else
 	{
 		wait(NULL);
 	}
-
+	free(command_no_args);
 	return (1);
 }
 

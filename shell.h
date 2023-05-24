@@ -23,14 +23,12 @@
  * Description: Struct for a command
  */
 
-struct Command
+typedef struct Command
 {
 	char *cmd;
 	int argc;
 	char **argv;
 } Command;
-
-typedef struct Command Command;
 
 extern char **environ;
 

@@ -35,6 +35,7 @@ char **_formatline(char *line)
 	int bufsize = 64, i = 0;
 	char **tokens = malloc(bufsize * sizeof(char *));
 	char *token, *saveptr;
+	char **temp;
 
 	if (tokens == NULL)
 	{
@@ -51,7 +52,7 @@ char **_formatline(char *line)
 		if (i >= bufsize)
 		{
 			bufsize += 64;
-			char **temp = realloc(tokens, bufsize * sizeof(char *));
+			temp = realloc(tokens, bufsize * sizeof(char *));
 
 			if (temp == NULL)
 			{
