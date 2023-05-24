@@ -56,24 +56,24 @@ int launch_process(char **command, char *name)
 {
 	pid_t pid;
 
-	if (command[1] != NULL)
+	/*if (command[1] != NULL)
 	{
 		errno = ENOENT;
 		perror(name);
 	}
 	else
+	{*/
+	pid = fork();
+	if (pid == 0)
 	{
-		pid = fork();
-		if (pid == 0)
-		{
-			if (execve(command[0], command, environ) == -1)
-				perror(name);
-			exit(EXIT_SUCCESS);
-		}
-		else
-		{
-			wait(NULL);
-		}
+		if (execve(command[0], command, environ) == -1)
+			perror(name);
+		exit(EXIT_SUCCESS);
 	}
+	else
+	{
+		wait(NULL);
+	}
+	/*}*/
 	return (1);
 }
