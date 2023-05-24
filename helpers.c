@@ -9,16 +9,20 @@ char *_getline(void)
 {
 	char *line = NULL;
 	size_t bufsize = 0;
-	int characters = 0;
+	ssize_t characters;
+
+	signal(SIGINT, handler_function);
 
 	characters = getline(&line, &bufsize, stdin);
 	if (characters == -1)
 	{
-		if (isatty(STDIN_FILENO))
+		if ((isatty(STDIN_FILENO) == 1) && (isatty(STDOUT_FILENO) == 1))
 			write(STDOUT_FILENO, "\n", 1);
 		free(line);
 		exit(EXIT_SUCCESS);
 	}
+	if (line[characters] == '\n')
+		line[characters] = '\0';
 	return (line);
 }
 
@@ -69,4 +73,17 @@ char **_formatline(char *line)
 	}
 	tokens[i] = NULL;
 	return (tokens);
+}
+
+/**
+ * handler_function - handle SIGINT signal
+ * @signum: signal number
+ */
+void handler_function(int signum)
+{
+	if (signum == SIGINT)
+	{
+		write(STDOUT_FILENO, "\n", 1);
+		exit(EXIT_SUCCESS);
+	}
 }

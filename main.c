@@ -10,10 +10,11 @@ int main(void)
 	char *line, **command;
 	int status = 1;
 
-	signal(SIGINT, handler_function);
-	do {
-		if (isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, "($) ", 5);
+	
+	do
+	{
+		if ((isatty(STDIN_FILENO) == 1) && (isatty(STDOUT_FILENO) == 1))
+			write(STDOUT_FILENO, "($) ", 4);
 		else
 		{
 			line = _getline();
@@ -26,16 +27,13 @@ int main(void)
 
 		line = _getline();
 		command = _formatline(line);
-
 		if (*command == NULL)
 		{
 			free(line);
 			free(command);
 			continue;
 		}
-		fflush(stdout);
 		launch_process(command);
-
 		free(line);
 		free(command);
 
@@ -78,15 +76,3 @@ int launch_process(char **command)
 	return (1);
 }
 
-/**
- * handler_function - handle SIGINT signal
- * @signum: signal number
- */
-void handler_function(int signum)
-{
-	if (signum == SIGINT)
-	{
-		write(STDOUT_FILENO, "\n", 2);
-		exit(EXIT_SUCCESS);
-	}
-}
