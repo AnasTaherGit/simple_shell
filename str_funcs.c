@@ -5,28 +5,25 @@
  * @str: the string to be duplicated
  * Return: pointer to the new string if successful and NULL if failed
  */
-char *_strdup(char *str)
+char *_strdup(const char *str)
 {
-	unsigned int i, count;
-	char *p;
+	size_t length = _strlen(str);
+	char *duplicate = NULL;
 
 	if (str == NULL)
+	{
 		return (NULL);
+	}
 
-	for (count = 0; str[count] != '\0'; count++)
-		;
-
-	p = malloc((count + 2) * sizeof(char));
-	if (p == NULL)
+	duplicate = malloc((length + 1) * sizeof(char));
+	if (duplicate == NULL)
 	{
 		perror("Error: malloc failed");
 		return (NULL);
 	}
 
-	for (i = 0; i <= count; i++)
-		p[i] = str[i];
-
-	return (p);
+	strcpy(duplicate, str);
+	return (duplicate);
 }
 /**
  * _strlen - returns the length of a string
@@ -36,12 +33,19 @@ char *_strdup(char *str)
  * Return: length of string
  */
 
-int _strlen(char *s)
+size_t _strlen(const char *s)
 {
-	int counter;
+	size_t counter = 0;
 
-	for (counter = 0; *s != '\0'; ++s)
+	if (s == NULL)
+	{
+		return (0);
+	}
+	while (*s != '\0')
+	{
 		++counter;
+		++s;
+	}
 
 	return (counter);
 }

@@ -9,7 +9,7 @@ char *_get_input(void)
 {
 	char *line = NULL;
 	size_t bufsize = 0;
-	ssize_t characters;
+	ssize_t characters = 0;
 
 	signal(SIGINT, handler_function);
 
@@ -37,7 +37,7 @@ char **_get_tokens(char *line, const char *delimiters)
 {
 	char **command = NULL;
 	char *token = NULL;
-	int token_count, i;
+	int token_count = 0, i = 0;
 
 	token_count = count_tokens(line, delimiters);
 

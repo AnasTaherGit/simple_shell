@@ -7,9 +7,9 @@
  * @main_argv: main arguments
  * Return: 0
  */
-int cmd_handle(char **cmd_args, char* line, char **main_argv)
+int cmd_handle(char **cmd_args, char *line, char **main_argv)
 {
-	struct stat file_stat;
+	struct stat file_stat = {0};
 	char *path = NULL;
 
 	if (check_builtins(cmd_args, line) == 0)
@@ -49,7 +49,7 @@ int cmd_handle(char **cmd_args, char* line, char **main_argv)
  */
 int launch_process(char **command, char *name)
 {
-	pid_t pid;
+	pid_t pid = 0;
 
 	pid = fork();
 	if (pid == 0)

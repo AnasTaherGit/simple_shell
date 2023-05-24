@@ -74,8 +74,8 @@ char *get_full_path(char *cmd);
 char *_getenv(char *var_name);
 
 /*str_funcs.c*/
-char *_strdup(char *str);
-int _strlen(char *s);
+char *_strdup(const char *str);
+size_t _strlen(const char *s);
 char *_strcat(char *dest, char *src);
 char *_strcpy(char *dest, char *src);
 int _strncmp(char *s1, char *s2, size_t n);

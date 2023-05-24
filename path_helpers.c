@@ -8,7 +8,7 @@
  */
 char *build_cmd_path(char *dir, char *cmd)
 {
-	int size = _strlen(dir) + _strlen(cmd) + 2;
+	size_t size = _strlen(dir) + _strlen(cmd) + 2;
 	char *cmd_path = malloc(sizeof(char) * size);
 
 	if (cmd_path == NULL)
@@ -43,12 +43,12 @@ char **get_path_directories(char *path_env)
  */
 char *get_full_path(char *cmd)
 {
-	char *path_env = _getenv("PATH");
+	char *path_env = _strdup(_getenv("PATH"));
 	char *full_path = NULL;
 	char **paths = get_path_directories(path_env);
 	int i = 0;
 
-	for (i = 0; paths[i] != NULL; i++)
+	for (i = 1; paths[i] != NULL; i++)
 	{
 		full_path = build_cmd_path(paths[i], cmd);
 
@@ -62,6 +62,7 @@ char *get_full_path(char *cmd)
 	}
 
 	free(paths);
+	free(path_env);
 	return (NULL);
 }
 /**
