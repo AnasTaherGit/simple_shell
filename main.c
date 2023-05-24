@@ -22,58 +22,26 @@ int main(int argc, char **argv)
 		else
 		{
 			line = _get_input();
-			command = _format_input(line);
-			launch_process(command, argv[0]);
+			command = _get_tokens(line);
+			cmd_handle(command, argv);
 			free(command);
 			free(line);
 			return (0);
 		}
 
 		line = _get_input();
-		command = _format_input(line);
+		command = _get_tokens(line);
 		if (*command == NULL)
 		{
 			free(command);
 			free(line);
 			continue;
 		}
-		launch_process(command, argv[0]);
+		cmd_handle(command, argv);
 		free(command);
 		free(line);
 
 	} while (status);
 
 	return (0);
-}
-
-/**
- * launch_process - execute command
- * @command: command
- * @name: name of program
- * Return: 1
- */
-int launch_process(char **command, char *name)
-{
-	pid_t pid;
-
-	/*if (command[1] != NULL)
-	{
-		errno = ENOENT;
-		perror(name);
-	}
-	else
-	{*/
-	pid = fork();
-	if (pid == 0)
-	{
-		if (execve(command[0], command, environ) == -1)
-			perror(name);
-		exit(EXIT_SUCCESS);
-	}
-	else
-	{
-		wait(NULL);
-	}
-	/*}*/
-	return (1);
 }

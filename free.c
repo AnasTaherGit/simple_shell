@@ -1,17 +1,15 @@
 #include "shell.h"
 
 /**
- * iter_free - frees an array and its components
+ * free_array - frees an array and its components
  * @array: the array
+ * @size: the size of the array
  */
 
-void iter_free(char **array)
+void free_array(char **array, int size)
 {
-	int i;
-
-	if (!array || array == NULL)
-		return;
-	for (i = 0; array[i] != NULL; i++)
+	int i = 0;
+	for (i = 0; i < size; i++)
 		free(array[i]);
 	free(array);
 }

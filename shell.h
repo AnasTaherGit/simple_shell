@@ -12,7 +12,7 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
-#define TOKEN_DELIM " \t\r\n\a"
+#define TOKEN_DELIM " :\t\r\n\a"
 #define SIZEOFCHAR sizeof(char *)
 
 #define PROMPT "$ "
@@ -50,15 +50,33 @@ typedef struct Command
 
 extern char **environ;
 
-char *_get_input(void);
-char **_format_input(char *line);
-int count_tokens(char *line, const char *delim);
+/*main*/
+int main(int argc, char **argv);
+
+/*command_handler*/
+int cmd_handle(char **cmd_args, char **main_argv);
 int launch_process(char **command, char *name);
+
+/*free*/
+void free_array(char **array, int size);
+
+/*helpers.c*/
+char *_get_input(void);
+char **_get_tokens(char *line);
+int count_tokens(char *line, const char *delimiter);
 void handler_function(int signum);
-int process_user_input(char *input, char **commands_args, char *name);
 
-void iter_free(char **array);
+/*path_helpers.c*/
+char *build_cmd_path(char *dir, char *cmd);
+char **get_path_directories(char *path_env);
+char *get_full_path(char *cmd);
+char *_getenv(char *var_name);
 
+/*str_funcs.c*/
 char *_strdup(char *str);
+int _strlen(char *s);
+char *_strcat(char *dest, char *src);
+char *_strcpy(char *dest, char *src);
+int _strncmp(char *s1, char *s2, size_t n);
 
 #endif

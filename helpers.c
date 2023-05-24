@@ -26,13 +26,13 @@ char *_get_input(void)
 }
 
 /**
- * _format_input - format line
+ * _get_tokens - format line
  * @line: line
  * Return: command
  *
  */
 
-char **_format_input(char *line)
+char **_get_tokens(char *line)
 {
 	char **command = NULL;
 	char *token = NULL;
