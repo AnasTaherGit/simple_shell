@@ -10,8 +10,7 @@ int main(void)
 	char *line, **command;
 	int status = 1;
 
-	do
-	{
+	do {
 		if ((isatty(STDIN_FILENO) == 1) && (isatty(STDOUT_FILENO) == 1))
 			write(STDOUT_FILENO, "($) ", 4);
 		else
