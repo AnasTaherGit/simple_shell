@@ -12,7 +12,7 @@ int main(void)
 
 	do {
 		if ((isatty(STDIN_FILENO) == 1) && (isatty(STDOUT_FILENO) == 1))
-			write(STDOUT_FILENO, "($) ", 4);
+			write(STDOUT_FILENO, "$ ", 2);
 		else
 		{
 			line = _getline();
@@ -55,20 +55,20 @@ int launch_process(char **command)
 	if (command[1] != NULL)
 	{
 		errno = ENOENT;
-		perror("./shell");
+		perror("./hsh");
 	}
 	else
 	{
 		pid = fork();
 		if (pid == -1)
 		{
-			perror("./shell");
+			perror("./hsh");
 			exit(EXIT_FAILURE);
 		}
 		else if (pid == 0)
 		{
 			if (execve(command[0], command_no_args, environ) == -1)
-				perror("./shell");
+				perror("./hsh");
 			exit(EXIT_SUCCESS);
 		}
 		else
