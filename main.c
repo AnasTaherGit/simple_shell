@@ -26,6 +26,7 @@ int main(int argc, char **argv)
 			launch_process(command, argv[0]);
 			free(command);
 			free(line);
+			write(STDOUT_FILENO, PROMPT, PROMPT_LEN);
 			return (0);
 		}
 
