@@ -10,7 +10,6 @@ int main(void)
 	char *line, **command;
 	int status = 1;
 
-	
 	do
 	{
 		if ((isatty(STDIN_FILENO) == 1) && (isatty(STDOUT_FILENO) == 1))
@@ -62,10 +61,16 @@ int launch_process(char **command)
 	else
 	{
 		pid = fork();
-		if (pid == 0)
+		if (pid == -1)
+		{
+			perror("./shell");
+			exit(EXIT_FAILURE);
+		}
+		else if (pid == 0)
 		{
 			if (execve(command[0], command_no_args, environ) == -1)
 				perror("./shell");
+			exit(EXIT_SUCCESS);
 		}
 		else
 		{
@@ -75,4 +80,3 @@ int launch_process(char **command)
 	free(command_no_args);
 	return (1);
 }
-
