@@ -14,23 +14,29 @@
 #define TOKEN_DELIM " \t\r\n\a"
 
 /**
- * Command - Struct for a command
+ * struct Command - Struct for a command
  *
- * cmd: The command
- * argc: The number of arguments
- * argv: The arguments
+ * @cmd: The command
+ * @argc: The number of arguments
+ * @argv: The arguments
+ *
+ * Description: Struct for a command
  */
 
-typedef struct Command
+struct Command
 {
-    char *cmd;
-    int argc;
-    char **argv;
+	char *cmd;
+	int argc;
+	char **argv;
 } Command;
+
+typedef struct Command Command;
 
 extern char **environ;
 
 char *_getline(void);
 char **_formatline(char *line);
+int launch_process(char **command);
+void handler_function(int signum);
 
 #endif

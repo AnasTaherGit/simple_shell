@@ -7,19 +7,19 @@
  */
 char *_getline(void)
 {
-    char *line = NULL;
-    size_t bufsize = 0;
-    int characters = 0;
+	char *line = NULL;
+	size_t bufsize = 0;
+	int characters = 0;
 
-    characters = getline(&line, &bufsize, stdin);
-    if (characters == -1)
-    {
-        if (isatty(STDIN_FILENO))
-            write(STDOUT_FILENO, "\n", 1);
-        free(line);
-        exit(EXIT_SUCCESS);
-    }
-    return (line);
+	characters = getline(&line, &bufsize, stdin);
+	if (characters == -1)
+	{
+		if (isatty(STDIN_FILENO))
+			write(STDOUT_FILENO, "\n", 1);
+		free(line);
+		exit(EXIT_SUCCESS);
+	}
+	return (line);
 }
 
 /**
@@ -32,37 +32,38 @@ char *_getline(void)
 char **_formatline(char *line)
 {
 
-    int bufsize = 64, i = 0;
-    char **tokens = malloc(bufsize * sizeof(char *));
-    char *token, *saveptr;
+	int bufsize = 64, i = 0;
+	char **tokens = malloc(bufsize * sizeof(char *));
+	char *token, *saveptr;
 
-    if (tokens == NULL)
-    {
-        perror("failed to allocate tokens\n");
-        return NULL;
-    }
+	if (tokens == NULL)
+	{
+		perror("failed to allocate tokens\n");
+		return (NULL);
+	}
 
-    token = strtok_r(line, TOKEN_DELIM, &saveptr);
-    while (token != NULL)
-    {
-        tokens[i] = token;
-        i++;
+	token = strtok_r(line, TOKEN_DELIM, &saveptr);
+	while (token != NULL)
+	{
+		tokens[i] = token;
+		i++;
 
-        if (i >= bufsize)
-        {
-            bufsize += 64;
-            char **temp = realloc(tokens, bufsize * sizeof(char *));
-            if (temp == NULL)
-            {
-                perror("failed to reallocate tokens\n");
-                free(tokens);
-                return NULL;
-            }
-            tokens = temp;
-        }
+		if (i >= bufsize)
+		{
+			bufsize += 64;
+			char **temp = realloc(tokens, bufsize * sizeof(char *));
 
-        token = strtok_r(NULL, TOKEN_DELIM, &saveptr);
-    }
-    tokens[i] = NULL;
-    return tokens;
+			if (temp == NULL)
+			{
+				perror("failed to reallocate tokens\n");
+				free(tokens);
+				return (NULL);
+			}
+			tokens = temp;
+		}
+
+		token = strtok_r(NULL, TOKEN_DELIM, &saveptr);
+	}
+	tokens[i] = NULL;
+	return (tokens);
 }
