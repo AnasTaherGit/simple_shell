@@ -2,14 +2,18 @@
 
 /**
  * main - entry point
+ * @argc: number of arguments
+ * @argv: arguments
  * Return: 0
  */
 
-int main(void)
+int main(int argc, char **argv)
 {
+	
 	char *line, **command;
 	int status = 1;
-
+	
+	(void) argc;
 	do {
 		if ((isatty(STDIN_FILENO) == 1) && (isatty(STDOUT_FILENO) == 1))
 			write(STDOUT_FILENO, "$ ", 2);
@@ -17,7 +21,7 @@ int main(void)
 		{
 			line = _getline();
 			command = _formatline(line);
-			launch_process(command);
+			launch_process(command, argv[0]);
 			free(line);
 			free(command);
 			return (0);
@@ -31,7 +35,7 @@ int main(void)
 			free(command);
 			continue;
 		}
-		launch_process(command);
+		launch_process(command, argv[0]);
 		free(line);
 		free(command);
 
@@ -43,9 +47,10 @@ int main(void)
 /**
  * launch_process - execute command
  * @command: command
+ * @name: name of program
  * Return: 1
  */
-int launch_process(char **command)
+int launch_process(char **command, char *name)
 {
 	pid_t pid;
 	char **command_no_args = malloc(2 * SIZEOFCHAR);
@@ -55,20 +60,20 @@ int launch_process(char **command)
 	if (command[1] != NULL)
 	{
 		errno = ENOENT;
-		perror("./hsh");
+		perror(name);
 	}
 	else
 	{
 		pid = fork();
 		if (pid == -1)
 		{
-			perror("./hsh");
+			perror(name);
 			exit(EXIT_FAILURE);
 		}
 		else if (pid == 0)
 		{
 			if (execve(command[0], command_no_args, environ) == -1)
-				perror("./hsh");
+				perror(name);
 			exit(EXIT_SUCCESS);
 		}
 		else

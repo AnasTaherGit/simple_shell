@@ -35,7 +35,7 @@ extern char **environ;
 
 char *_getline(void);
 char **_formatline(char *line);
-int launch_process(char **command);
+int launch_process(char **command, char *name);
 void handler_function(int signum);
 
 #endif
