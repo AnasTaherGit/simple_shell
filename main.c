@@ -9,35 +9,32 @@
 
 int main(int argc, char **argv)
 {
-	
+
 	char *line, **command;
 	int status = 1;
-	
-	(void) argc;
+
+	(void)argc;
 	do {
 		if ((isatty(STDIN_FILENO) == 1) && (isatty(STDOUT_FILENO) == 1))
-			write(STDOUT_FILENO, "$ ", 2);
+			write(STDOUT_FILENO, PROMPT, PROMPT_LEN);
 		else
 		{
-			line = _getline();
-			command = _formatline(line);
+			line = _get_input();
+			command = _format_input(line);
 			launch_process(command, argv[0]);
 			free(line);
-			free(command);
 			return (0);
 		}
 
-		line = _getline();
-		command = _formatline(line);
+		line = _get_input();
+		command = _format_input(line);
 		if (*command == NULL)
 		{
 			free(line);
-			free(command);
 			continue;
 		}
 		launch_process(command, argv[0]);
 		free(line);
-		free(command);
 
 	} while (status);
 
@@ -53,10 +50,7 @@ int main(int argc, char **argv)
 int launch_process(char **command, char *name)
 {
 	pid_t pid;
-	char **command_no_args = malloc(2 * SIZEOFCHAR);
 
-	command_no_args[0] = command[0];
-	command_no_args[1] = NULL;
 	if (command[1] != NULL)
 	{
 		errno = ENOENT;
@@ -65,14 +59,9 @@ int launch_process(char **command, char *name)
 	else
 	{
 		pid = fork();
-		if (pid == -1)
+		if (pid == 0)
 		{
-			perror(name);
-			exit(EXIT_FAILURE);
-		}
-		else if (pid == 0)
-		{
-			if (execve(command[0], command_no_args, environ) == -1)
+			if (execve(command[0], command, environ) == -1)
 				perror(name);
 			exit(EXIT_SUCCESS);
 		}
@@ -81,6 +70,5 @@ int launch_process(char **command, char *name)
 			wait(NULL);
 		}
 	}
-	free(command_no_args);
 	return (1);
 }

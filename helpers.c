@@ -1,11 +1,11 @@
 #include "shell.h"
 
 /**
- * _getline - get line from stdin
+ * _get_input - get line from stdin
  * Return: line
  *
  */
-char *_getline(void)
+char *_get_input(void)
 {
 	char *line = NULL;
 	size_t bufsize = 0;
@@ -21,60 +21,64 @@ char *_getline(void)
 		free(line);
 		exit(EXIT_SUCCESS);
 	}
-	if (line[characters] == '\n')
-		line[characters] = '\0';
+
 	return (line);
 }
 
 /**
- * _formatline - format line
+ * _format_input - format line
  * @line: line
  * Return: command
  *
  */
 
-char **_formatline(char *line)
+char **_format_input(char *line)
 {
-	int bufsize = 64, i = 0, j = 0;
-	char **tokens = malloc(bufsize * SIZEOFCHAR), *token, **temp;
+	char **command = NULL;
+	char *token = NULL;
+	int token_count, i;
 
-	if (tokens == NULL)
+	token_count = count_tokens(line, TOKEN_DELIM);
+
+	command = malloc(sizeof(char *) * (token_count + 1));
+	if (command == NULL)
 	{
-		perror("failed to allocate tokens\n");
-		return (NULL);
+		perror("malloc");
+		exit(EXIT_FAILURE);
 	}
 
 	token = strtok(line, TOKEN_DELIM);
-	while (token != NULL)
+	for (i = 0; i < token_count; i++)
 	{
-		tokens[i] = token;
-		i++;
-
-		if (i >= bufsize)
-		{
-			bufsize += 64;
-			temp = malloc(bufsize * SIZEOFCHAR);
-
-			if (temp == NULL)
-			{
-				perror("failed to reallocate tokens\n");
-				free(tokens);
-				return (NULL);
-			}
-
-			for (j = 0; j < i; j++)
-				temp[j] = tokens[j];
-
-			free(tokens);
-			tokens = temp;
-		}
-
+		command[i] = token;
 		token = strtok(NULL, TOKEN_DELIM);
 	}
-	tokens[i] = NULL;
-	return (tokens);
+	command[token_count] = NULL;
+
+	return (command);
 }
 
+/**
+ * count_tokens - count tokens
+ * @line: line
+ * @delimiter: delimiter
+ * Return: count
+ */
+int count_tokens(char *line, const char *delimiter)
+{
+	int count = 0;
+	char *line_copy = _strdup(line);
+	char *token = strtok(line_copy, delimiter);
+
+	while (token != NULL)
+	{
+		count++;
+		token = strtok(NULL, delimiter);
+	}
+
+	free(line_copy);
+	return (count);
+}
 /**
  * handler_function - handle SIGINT signal
  * @signum: signal number
