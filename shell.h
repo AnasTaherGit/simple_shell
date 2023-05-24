@@ -55,7 +55,7 @@ extern char **environ;
 int main(int argc, char **argv);
 
 /*command_handler*/
-int cmd_handle(char **cmd_args, char **main_argv);
+int cmd_handle(char **cmd_args, char *line, char **main_argv);
 int launch_process(char **command, char *name);
 
 /*free*/
@@ -79,5 +79,11 @@ int _strlen(char *s);
 char *_strcat(char *dest, char *src);
 char *_strcpy(char *dest, char *src);
 int _strncmp(char *s1, char *s2, size_t n);
+int _atoi(char *s);
+int _strcmp(char *s1, char *s2);
+
+/*builtins.c*/
+int check_builtins(char **cmd_args, char *line);
+int _exit_builtin(char **cmd_args, char *line);
 
 #endif

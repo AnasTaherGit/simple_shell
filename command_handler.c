@@ -3,13 +3,19 @@
 /**
  * cmd_handle - handles command
  * @cmd_args: command arguments
+ * @line: user input to clear if needed
  * @main_argv: main arguments
  * Return: 0
  */
-int cmd_handle(char **cmd_args, char **main_argv)
+int cmd_handle(char **cmd_args, char* line, char **main_argv)
 {
 	struct stat file_stat;
 	char *path = NULL;
+
+	if (check_builtins(cmd_args, line) == 0)
+	{
+		return (0);
+	}
 
 	if (stat(cmd_args[0], &file_stat) == 0 && access(cmd_args[0], X_OK) == 0)
 	{

@@ -22,7 +22,7 @@ int main(int argc, char **argv)
 		{
 			line = _get_input();
 			command = _get_tokens(line, TOKEN_DELIM);
-			cmd_handle(command, argv);
+			cmd_handle(command,line,argv);
 			free(command);
 			free(line);
 			return (0);
@@ -36,7 +36,7 @@ int main(int argc, char **argv)
 			free(line);
 			continue;
 		}
-		cmd_handle(command, argv);
+		cmd_handle(command,line,argv);
 		free(command);
 		free(line);
 
