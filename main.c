@@ -11,10 +11,9 @@ int main(void)
 	int status = 1;
 
 	signal(SIGINT, handler_function);
-
 	do {
 		if (isatty(STDIN_FILENO))
-			printf("($) ");
+			write(STDOUT_FILENO, "($) ", 5);
 		else
 		{
 			line = _getline();
@@ -53,7 +52,7 @@ int main(void)
 int launch_process(char **command)
 {
 	pid_t pid;
-	char **command_no_args = malloc(2 * sizeof(char *));
+	char **command_no_args = malloc(2 * SIZEOFCHAR);
 
 	command_no_args[0] = command[0];
 	command_no_args[1] = NULL;
@@ -87,7 +86,7 @@ void handler_function(int signum)
 {
 	if (signum == SIGINT)
 	{
-		write(STDOUT_FILENO, "\n", strlen("\n"));
+		write(STDOUT_FILENO, "\n", 2);
 		exit(EXIT_SUCCESS);
 	}
 }

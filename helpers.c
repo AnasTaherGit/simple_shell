@@ -31,11 +31,8 @@ char *_getline(void)
 
 char **_formatline(char *line)
 {
-
-	int bufsize = 64, i = 0;
-	char **tokens = malloc(bufsize * sizeof(char *));
-	char *token, *saveptr;
-	char **temp;
+	int bufsize = 64, i = 0, j = 0;
+	char **tokens = malloc(bufsize * SIZEOFCHAR), *token, **temp;
 
 	if (tokens == NULL)
 	{
@@ -43,7 +40,7 @@ char **_formatline(char *line)
 		return (NULL);
 	}
 
-	token = strtok_r(line, TOKEN_DELIM, &saveptr);
+	token = strtok(line, TOKEN_DELIM);
 	while (token != NULL)
 	{
 		tokens[i] = token;
@@ -52,7 +49,7 @@ char **_formatline(char *line)
 		if (i >= bufsize)
 		{
 			bufsize += 64;
-			temp = realloc(tokens, bufsize * sizeof(char *));
+			temp = malloc(bufsize * SIZEOFCHAR);
 
 			if (temp == NULL)
 			{
@@ -60,10 +57,15 @@ char **_formatline(char *line)
 				free(tokens);
 				return (NULL);
 			}
+
+			for (j = 0; j < i; j++)
+				temp[j] = tokens[j];
+
+			free(tokens);
 			tokens = temp;
 		}
 
-		token = strtok_r(NULL, TOKEN_DELIM, &saveptr);
+		token = strtok(NULL, TOKEN_DELIM);
 	}
 	tokens[i] = NULL;
 	return (tokens);

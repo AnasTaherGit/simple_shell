@@ -13,7 +13,7 @@
 #include <sys/wait.h>
 
 #define TOKEN_DELIM " \t\r\n\a"
-
+#define SIZEOFCHAR 1
 /**
  * struct Command - Struct for a command
  *
