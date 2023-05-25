@@ -23,12 +23,12 @@ int cmd_handle(char **cmd_args, char **main_argv)
 	}
 	cmd = malloc(sizeof(char) * (_strlen(cmd_args[0]) + 1));
 	_strcpy(cmd, cmd_args[0]);
-	free(cmd_args[0]);
 	path = get_full_path(cmd);
 	free(cmd);
 
 	if (path != NULL)
 	{
+		free(cmd_args[0]);
 		cmd_args[0] = malloc(sizeof(char) * (_strlen(path) + 1));
 		_strcpy(cmd_args[0], path);
 		free(path);
