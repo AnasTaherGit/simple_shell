@@ -1,3 +1,4 @@
 hsh
 .vscode/*
 valgrind.rpt
+tests/*.result

@@ -18,16 +18,6 @@ int main(int argc, char **argv)
 	do {
 		if ((isatty(STDIN_FILENO) == 1) && (isatty(STDOUT_FILENO) == 1))
 			write(STDOUT_FILENO, PROMPT, PROMPT_LEN);
-		else
-		{
-			line = _get_input();
-			command = _get_tokens(line, TOKEN_DELIM);
-			free(line);
-			cmd_handle(command, argv);
-			free_null_terminated_array(command);
-
-			return (0);
-		}
 
 		line = _get_input();
 		command = _get_tokens(line, TOKEN_DELIM);

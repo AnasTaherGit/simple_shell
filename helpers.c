@@ -35,8 +35,7 @@ char *_get_input(void)
 
 char **_get_tokens(char *line, const char *delimiters)
 {
-	char **command = NULL;
-	char *token = NULL, *tmp = NULL;
+	char **command = NULL, *token = NULL, *tmp = NULL;
 	int token_count = 0, i = 0, j = 0;
 
 	token_count = count_tokens(line, delimiters);
@@ -61,14 +60,6 @@ char **_get_tokens(char *line, const char *delimiters)
 		}
 		_strcpy(command[i], tmp);
 		free(tmp);
-		if (command[i] == NULL)
-		{
-			perror("strdup");
-			for (j = 0; j < i; j++)
-				free(command[j]);
-			free(command);
-			exit(EXIT_FAILURE);
-		}
 		token = strtok(NULL, delimiters);
 	}
 	command[token_count] = NULL;
