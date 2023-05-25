@@ -1,4 +1,5 @@
 #!/bin/bash
+# author: @winsid
 
 # ANSI color codes
 GREEN="\033[0;32m"
@@ -22,12 +23,16 @@ done
 for file in $files; do
     if [[ $file != "checker.bash" ]] && [[ $file != *.result ]]; then
         echo "Running test $file"
-        output=$(tests/checker.bash ./hsh "tests/$file" 2>&1)
+        output=$(tests/checker.bash --diff ./hsh "tests/$file" 2>&1)
+        echo "$output" > "tests/$file.result"
         if [[ $output == "OK" ]]; then
             echo -e "${GREEN}$output${NC}"
+            # move test and result files to ok_results directory
+            mkdir -p ok_results
+            mv "tests/$file" "ok_results/$file"
+            mv "tests/$file.result" "ok_results/$file.result"
         else
             echo -e "${RED}NOT OK${NC}"
         fi
-        echo "$output" > "tests/$file.result"
     fi
 done
