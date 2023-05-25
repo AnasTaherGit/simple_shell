@@ -62,6 +62,7 @@ size_t _strlen(const char *s)
 char *_strcpy(char *dest, const char *src)
 {
 	int i = 0;
+
 	if (dest == NULL || src == NULL)
 		return (NULL);
 	while (src[i] != '\0')

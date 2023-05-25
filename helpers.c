@@ -40,14 +40,12 @@ char **_get_tokens(char *line, const char *delimiters)
 	int token_count = 0, i = 0, j = 0;
 
 	token_count = count_tokens(line, delimiters);
-
 	command = malloc(sizeof(char *) * (token_count + 1));
 	if (command == NULL)
 	{
 		perror("malloc");
 		exit(EXIT_FAILURE);
 	}
-
 	token = strtok(line, delimiters);
 	for (i = 0; i < token_count; i++)
 	{
@@ -74,8 +72,7 @@ char **_get_tokens(char *line, const char *delimiters)
 		token = strtok(NULL, delimiters);
 	}
 	command[token_count] = NULL;
-
-	return command;
+	return (command);
 }
 
 /**
@@ -101,7 +98,7 @@ int count_tokens(char *line, const char *delimiter)
 }
 /**
  * handler_function - handle SIGINT signal
- * @signum: signal number
+ * @sig : signal
  */
 void handler_function(int sig)
 {

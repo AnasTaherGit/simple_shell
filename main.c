@@ -15,8 +15,7 @@ int main(int argc, char **argv)
 	int status = 1;
 
 	(void)argc;
-	do
-	{
+	do {
 		if ((isatty(STDIN_FILENO) == 1) && (isatty(STDOUT_FILENO) == 1))
 			write(STDOUT_FILENO, PROMPT, PROMPT_LEN);
 		else

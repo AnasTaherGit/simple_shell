@@ -86,5 +86,6 @@ int _strcmp(char *s1, char *s2);
 /*builtins.c*/
 int check_builtins(char **cmd_args);
 int _exit_builtin(char **cmd_args);
+int _env_builtin(void);
 
 #endif
