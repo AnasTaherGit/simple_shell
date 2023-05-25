@@ -32,3 +32,17 @@ void free_null_terminated_array(char **array)
 	free(array[i]);
 	free(array);
 }
+
+/**
+ * free_env - free environment
+ * Return: void
+ */
+
+void free_env(void)
+{
+	int index;
+
+	for (index = 0; environ[index]; index++)
+		free(environ[index]);
+	free(environ);
+}

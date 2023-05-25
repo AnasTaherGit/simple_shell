@@ -50,6 +50,7 @@ int cmd_handle(char **cmd_args, char **main_argv)
 int launch_process(char **command, char *name)
 {
 	pid_t pid = 0;
+	int status = 0;
 
 	/**
 	 * if (command[1] != NULL)
@@ -63,12 +64,14 @@ int launch_process(char **command, char *name)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(command[0], command, environ) == -1)
+		status = execve(command[0], command, environ);
+		free_env();
+		free_null_terminated_array(command);
+		if (status == -1)
 		{
 			perror(name);
 		}
-		free_null_terminated_array(command);
-		_exit(EXIT_SUCCESS);
+		exit(EXIT_SUCCESS);
 	}
 	else
 	{

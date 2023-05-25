@@ -61,6 +61,7 @@ int launch_process(char **command, char *name);
 /*free*/
 void free_array(char **array, int size);
 void free_null_terminated_array(char **array);
+void free_env(void);
 
 /*helpers.c*/
 char *_get_input(void);
