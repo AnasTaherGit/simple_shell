@@ -13,21 +13,18 @@ int cmd_handle(char **cmd_args, char **main_argv)
 	int ret_value = 0;
 
 	if (check_builtins(cmd_args) == 0)
-	{
 		ret_value = 0;
-	}
-	else if (stat(cmd_args[0], &file_stat) == 0 && access(cmd_args[0], X_OK) == 0)
+	else if (cmd_args[0][0] == '/' || cmd_args[0][0] == '.')
 	{
-		ret_value = launch_process(cmd_args, main_argv[0]);
+		if (stat(cmd_args[0], &file_stat) == 0 && access(cmd_args[0], X_OK) == 0)
+			ret_value = launch_process(cmd_args, main_argv[0]);
 	}
 	else
 	{
-
 		cmd = malloc(sizeof(char) * (_strlen(cmd_args[0]) + 1));
 		_strcpy(cmd, cmd_args[0]);
 		path = get_full_path(cmd);
 		free(cmd);
-
 		if (path != NULL)
 		{
 			free(cmd_args[0]);
@@ -46,7 +43,6 @@ int cmd_handle(char **cmd_args, char **main_argv)
 			ret_value = 127;
 		}
 	}
-
 	return (ret_value);
 }
 
