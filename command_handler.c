@@ -9,14 +9,35 @@
 int cmd_handle(char **cmd_args, char **main_argv)
 {
 	struct stat file_stat = {0};
+	char *path = NULL, *cmd = NULL;
+
+	if (check_builtins(cmd_args) == 0)
+	{
+		return (0);
+	}
 
 	if (stat(cmd_args[0], &file_stat) == 0 && access(cmd_args[0], X_OK) == 0)
 	{
 		launch_process(cmd_args, main_argv[0]);
 		return (0);
 	}
+	cmd = malloc(sizeof(char) * (_strlen(cmd_args[0]) + 1));
+	_strcpy(cmd, cmd_args[0]);
+	free(cmd_args[0]);
+	path = get_full_path(cmd);
+	free(cmd);
+
+	if (path != NULL)
+	{
+		cmd_args[0] = malloc(sizeof(char) * (_strlen(path) + 1));
+		_strcpy(cmd_args[0], path);
+		free(path);
+		launch_process(cmd_args, main_argv[0]);
+		return (0);
+	}
 	else
 	{
+		free(path);
 		errno = ENOENT;
 		perror(main_argv[0]);
 	}
@@ -34,12 +55,14 @@ int launch_process(char **command, char *name)
 	pid_t pid = 0;
 	int status = 0;
 
-	if (command[1] != NULL)
-	{
-		errno = ENOENT;
-		perror(name);
-		return (0);
-	}
+	/**
+	 * if (command[1] != NULL)
+	 *{
+	 *	errno = ENOENT;
+	 *	perror(name);
+	 *	return (0);
+	 *}
+	 */
 
 	pid = fork();
 	if (pid == 0)
