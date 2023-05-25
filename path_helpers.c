@@ -49,7 +49,7 @@ char *get_full_path(char *cmd)
 	char *temp_path = NULL;
 	int i = 0;
 
-	for (i = 1; paths[i] != NULL; i++)
+	for (i = 0; paths[i] != NULL; i++)
 	{
 		temp_path = _strdup(paths[i]);
 		full_path = build_cmd_path(temp_path, cmd);
