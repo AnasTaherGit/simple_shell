@@ -9,7 +9,7 @@
 int cmd_handle(char **cmd_args, char **main_argv)
 {
 	struct stat file_stat = {0};
-	char *path = NULL;
+	char *path = NULL, *cmd = NULL;
 
 	if (check_builtins(cmd_args) == 0)
 	{
@@ -21,8 +21,11 @@ int cmd_handle(char **cmd_args, char **main_argv)
 		launch_process(cmd_args, main_argv[0]);
 		return (0);
 	}
-
-	path = get_full_path(cmd_args[0]);
+	cmd = malloc(sizeof(char) * (_strlen(cmd_args[0]) + 1));
+	_strcpy(cmd, cmd_args[0]);
+	free(cmd_args[0]);
+	path = get_full_path(cmd);
+	free(cmd);
 
 	if (path != NULL)
 	{
