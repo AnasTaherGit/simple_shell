@@ -23,7 +23,7 @@ done
 for file in $files; do
     if [[ $file != "checker.bash" ]] && [[ $file != *.result ]]; then
         echo "Running test $file"
-        output=$(tests/checker.bash --diff ./hsh "tests/$file" 2>&1)
+        output=$(tests/checker.bash ./hsh "tests/$file" 2>&1)
         echo "$output" > "tests/$file.result"
         if [[ $output == "OK" ]]; then
             echo -e "${GREEN}$output${NC}"
