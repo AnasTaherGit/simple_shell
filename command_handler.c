@@ -51,12 +51,14 @@ int launch_process(char **command, char *name)
 {
 	pid_t pid = 0;
 
-	if (command[1] != NULL)
-	{
-		errno = ENOENT;
-		perror(name);
-		return (0);
-	}
+	/**
+	 * if (command[1] != NULL)
+	 *{
+	 *	errno = ENOENT;
+	 *	perror(name);
+	 *	return (0);
+	 *}
+	 */
 
 	pid = fork();
 	if (pid == 0)
