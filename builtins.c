@@ -36,7 +36,7 @@ int _exit_builtin(char **cmd_args)
 	}
 	else
 	{
-		/*status = _atoi(cmd_args[1]);*/
+		status = _atoi(cmd_args[1]);
 		free_null_terminated_array(cmd_args);
 		exit(status);
 	}
