@@ -2,3 +2,4 @@ hsh
 .vscode/*
 valgrind.rpt
 tests/*.result
+allowed_functions

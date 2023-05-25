@@ -19,7 +19,7 @@ char *_get_input(void)
 		if ((isatty(STDIN_FILENO) == 1) && (isatty(STDOUT_FILENO) == 1))
 			write(STDOUT_FILENO, "\n", 1);
 		free(line);
-		exit(EXIT_SUCCESS);
+		return (NULL);
 	}
 
 	return (line);
@@ -43,7 +43,7 @@ char **_get_tokens(char *line, const char *delimiters)
 	if (command == NULL)
 	{
 		perror("malloc");
-		exit(EXIT_FAILURE);
+		return (NULL);
 	}
 	token = strtok(line, delimiters);
 	for (i = 0; i < token_count; i++)
@@ -56,7 +56,7 @@ char **_get_tokens(char *line, const char *delimiters)
 			for (j = 0; j < i; j++)
 				free(command[j]);
 			free(command);
-			exit(EXIT_FAILURE);
+			return (NULL);
 		}
 		_strcpy(command[i], tmp);
 		free(tmp);

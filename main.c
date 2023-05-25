@@ -9,10 +9,9 @@
 
 int main(int argc, char **argv)
 {
-
 	char *line = NULL;
 	char **command = NULL;
-	int status = 1;
+	int status = 1, ret_value = 0;
 
 	(void)argc;
 	do {
@@ -20,6 +19,11 @@ int main(int argc, char **argv)
 			write(STDOUT_FILENO, PROMPT, PROMPT_LEN);
 
 		line = _get_input();
+		if (line == NULL)
+		{
+			status = 0;
+			continue;
+		}
 		command = _get_tokens(line, TOKEN_DELIM);
 		free(line);
 		if (*command == NULL)
@@ -27,10 +31,10 @@ int main(int argc, char **argv)
 			free_null_terminated_array(command);
 			continue;
 		}
-		cmd_handle(command, argv);
+		ret_value = cmd_handle(command, argv);
 		free_null_terminated_array(command);
 
 	} while (status);
 
-	return (0);
+	return (ret_value);
 }
