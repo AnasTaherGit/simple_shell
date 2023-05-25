@@ -81,12 +81,12 @@ size_t _strlen(const char *s);
 char *_strcat(char *dest, char *src);
 char *_strcpy(char *dest, const char *src);
 int _strncmp(char *s1, char *s2, size_t n);
-int _atoi(char *s);
+int is_valid_number(char *str);
 int _strcmp(char *s1, char *s2);
 
 /*builtins.c*/
-int check_builtins(char **cmd_args, int last_exit_status);
-int _exit_builtin(char **cmd_args, int last_exit_status);
+int check_builtins(char **cmd_args, char **main_argv, int last_exit_status);
+int _exit_builtin(char **cmd_args, char **main_argv, int last_exit_status);
 int _env_builtin(void);
 
 #endif

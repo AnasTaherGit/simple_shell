@@ -13,7 +13,7 @@ int cmd_handle(char **cmd_args, char **main_argv, int last_exit_status)
 	char *path = NULL, *cmd = NULL;
 	int ret_value = 0;
 
-	if (check_builtins(cmd_args, last_exit_status) == 0)
+	if (check_builtins(cmd_args, main_argv, last_exit_status) == 0)
 		ret_value = 0;
 	else if (cmd_args[0][0] == '/' || cmd_args[0][0] == '.')
 	{

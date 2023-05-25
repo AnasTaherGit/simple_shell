@@ -1,34 +1,47 @@
 #include "shell.h"
+#include <stdbool.h>
 
 /**
- * _atoi - converts a string to an integer
+ * is_valid_number - checks if a string is a valid number
  * @string: the string to be converted
  * Return: the integer value of the converted string
  */
-int _atoi(char *string)
-{
-	int x = 0;
-	int res = 0;
-	int sign = -1;
-	int brk = 0;
 
-	for (x = 0; string[x] != '\0'; x++)
+int is_valid_number(char *string)
+{
+	int index = 0;
+	int sign = 1;
+	int result = 0;
+	bool valid = false;
+
+	while (string[index] == ' ')
 	{
-		if (string[x] == '-')
-		{
-			sign = sign * -1;
-		}
-		if (string[x] >= '0' && string[x] <= '9')
-		{
-			res = res * 10;
-			res -= (string[x] - '0');
-			brk = 1;
-		}
-		else if (brk == 1)
-			break;
+		index++;
 	}
-	res = sign * res;
-	return (res);
+	if (string[index] == '-')
+	{
+		sign = -1;
+	}
+	index++;
+
+	while (string[index] != '\0')
+	{
+		if (string[index] >= '0' && string[index] <= '9')
+		{
+			result = result * 10 + (string[index] - '0');
+			valid = true;
+		}
+		else
+		{
+			valid = false;
+			break;
+		}
+		index++;
+	}
+	if (valid)
+		return (result * sign);
+	else
+		return (-1);
 }
 
 /**
