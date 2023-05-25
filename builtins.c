@@ -44,7 +44,7 @@ int _exit_builtin(char **cmd_args, char **main_argv, int last_exit_status)
 	else
 	{
 		status = is_valid_number(cmd_args[1]);
-		if (status > 255 || status < 0)
+		if (status < 0)
 		{
 			write(STDERR_FILENO, main_argv[0], _strlen(main_argv[0]));
 			write(STDERR_FILENO, ": 1: exit: Illegal number: ", 27);

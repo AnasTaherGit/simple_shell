@@ -10,26 +10,14 @@
 int is_valid_number(char *string)
 {
 	int index = 0;
-	int sign = 1;
 	int result = 0;
-	bool valid = false;
-
-	while (string[index] == ' ')
-	{
-		index++;
-	}
-	if (string[index] == '-')
-	{
-		sign = -1;
-	}
-	index++;
+	bool valid = true;
 
 	while (string[index] != '\0')
 	{
 		if (string[index] >= '0' && string[index] <= '9')
 		{
 			result = result * 10 + (string[index] - '0');
-			valid = true;
 		}
 		else
 		{
@@ -39,7 +27,7 @@ int is_valid_number(char *string)
 		index++;
 	}
 	if (valid)
-		return (result * sign);
+		return (result);
 	else
 		return (-1);
 }
