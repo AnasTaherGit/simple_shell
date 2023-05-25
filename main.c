@@ -31,7 +31,7 @@ int main(int argc, char **argv)
 			free_null_terminated_array(command);
 			continue;
 		}
-		ret_value = cmd_handle(command, argv);
+		ret_value = cmd_handle(command, argv, ret_value);
 		free_null_terminated_array(command);
 
 	} while (status);

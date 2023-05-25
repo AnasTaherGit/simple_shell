@@ -4,15 +4,16 @@
  * cmd_handle - handles command
  * @cmd_args: command arguments
  * @main_argv: main arguments
+ * @last_exit_status: last exit status
  * Return: 0
  */
-int cmd_handle(char **cmd_args, char **main_argv)
+int cmd_handle(char **cmd_args, char **main_argv, int last_exit_status)
 {
 	struct stat file_stat = {0};
 	char *path = NULL, *cmd = NULL;
 	int ret_value = 0;
 
-	if (check_builtins(cmd_args) == 0)
+	if (check_builtins(cmd_args, last_exit_status) == 0)
 		ret_value = 0;
 	else if (cmd_args[0][0] == '/' || cmd_args[0][0] == '.')
 	{
