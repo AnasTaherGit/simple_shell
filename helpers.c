@@ -36,8 +36,8 @@ char *_get_input(void)
 char **_get_tokens(char *line, const char *delimiters)
 {
 	char **command = NULL;
-	char *token = NULL;
-	int token_count = 0, i = 0;
+	char *token = NULL, *tmp = NULL;
+	int token_count = 0, i = 0, j = 0;
 
 	token_count = count_tokens(line, delimiters);
 
@@ -51,13 +51,31 @@ char **_get_tokens(char *line, const char *delimiters)
 	token = strtok(line, delimiters);
 	for (i = 0; i < token_count; i++)
 	{
-		command[i] = token;
+		tmp = _strdup(token);
+		command[i] = malloc(sizeof(char) * (_strlen(tmp) + 1));
+		if (command[i] == NULL)
+		{
+			perror("malloc");
+			for (j = 0; j < i; j++)
+				free(command[j]);
+			free(command);
+			exit(EXIT_FAILURE);
+		}
+		_strcpy(command[i], tmp);
+		free(tmp);
+		if (command[i] == NULL)
+		{
+			perror("strdup");
+			for (j = 0; j < i; j++)
+				free(command[j]);
+			free(command);
+			exit(EXIT_FAILURE);
+		}
 		token = strtok(NULL, delimiters);
 	}
 	command[token_count] = NULL;
 
-	free(token);
-	return (command);
+	return command;
 }
 
 /**
@@ -85,11 +103,11 @@ int count_tokens(char *line, const char *delimiter)
  * handler_function - handle SIGINT signal
  * @signum: signal number
  */
-void handler_function(int signum)
+void handler_function(int sig)
 {
-	if (signum == SIGINT)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		exit(EXIT_SUCCESS);
-	}
+	char *new_prompt = "\n$ ";
+
+	(void)sig;
+	signal(SIGINT, handler_function);
+	write(STDIN_FILENO, new_prompt, 3);
 }

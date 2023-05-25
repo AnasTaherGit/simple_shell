@@ -22,7 +22,7 @@ char *_strdup(const char *str)
 		return (NULL);
 	}
 
-	strcpy(duplicate, str);
+	_strcpy(duplicate, str);
 	return (duplicate);
 }
 /**
@@ -59,16 +59,17 @@ size_t _strlen(const char *s)
  * Return: pointer to dest input parameter
  */
 
-char *_strcpy(char *dest, char *src)
+char *_strcpy(char *dest, const char *src)
 {
-	int a, b = 0;
-
-	for (a = 0; src[a] != '\0'; ++a)
+	int i = 0;
+	if (dest == NULL || src == NULL)
+		return (NULL);
+	while (src[i] != '\0')
 	{
-		dest[b] = src[a];
-		++b;
+		dest[i] = src[i];
+		i++;
 	}
-	dest[b] = '\0';
+	dest[i] = '\0';
 
 	return (dest);
 }

@@ -43,26 +43,28 @@ char **get_path_directories(char *path_env)
  */
 char *get_full_path(char *cmd)
 {
-	char *path_env = _strdup(_getenv("PATH"));
+	char *path_env = _getenv("PATH");
 	char *full_path = NULL;
 	char **paths = get_path_directories(path_env);
+	char *temp_path = NULL;
 	int i = 0;
 
 	for (i = 1; paths[i] != NULL; i++)
 	{
-		full_path = build_cmd_path(paths[i], cmd);
+		temp_path = _strdup(paths[i]);
+		full_path = build_cmd_path(temp_path, cmd);
+		free(temp_path);
 
 		if (access(full_path, X_OK) == 0)
 		{
 			/*iter_free(paths);*/
-			free(paths);
+			free_null_terminated_array(paths);
 			return (full_path);
 		}
 		free(full_path);
 	}
 
-	free(paths);
-	free(path_env);
+	free_null_terminated_array(paths);
 	return (NULL);
 }
 /**
