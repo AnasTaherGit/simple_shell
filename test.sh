@@ -43,7 +43,7 @@ chmod u+x "$test_folder/checker.bash"
 for file in $files; do
     if [[ $file != "checker.bash" ]] && [[ $file != *.result ]] && [[ $file != "test_ok" ]]; then
         echo "Running test $file"
-        output=$("$test_folder/checker.bash" ./hsh "$test_folder/$file" 2>&1)
+        output=$("$test_folder/checker.bash" --valgrind --ltrace ./hsh "$test_folder/$file" 2>&1)
         echo "$output" > "$test_folder/$file.result"
         if [[ $output == "OK" ]]; then
             echo -e "${GREEN}$output${NC}"

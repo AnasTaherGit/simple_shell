@@ -93,8 +93,8 @@ int _unsetenv_builtin(char **cmd_args, char **main_argv);
 
 /*builtins2.c*/
 int _cd_builtin(char **cmd_args, char **main_argv);
-int cd_change_directory(const char *path, const char *command_name);
-int cd_update_environment(const char *command_name);
-int _cd_builtin(char **cmd_Args, char **main_argv);
+char *get_new_directory(char **cmd_Args);
+void set_environment_variables(char *new_dir, char *cwd);
+char *select_directory(char *home, char *old, char *arg, char *cwd);
 
 #endif
