@@ -29,6 +29,11 @@ int check_builtins(char **array, char **argv, int last_exit_status)
 		_unsetenv_builtin(array, argv);
 		return (0);
 	}
+	if (_strcmp(array[0], "cd") == 0)
+	{
+		_cd_builtin(array, argv);
+		return (0);
+	}
 	return (1);
 }
 

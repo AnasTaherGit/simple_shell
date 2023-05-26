@@ -6,4 +6,4 @@ allowed_functions
 TEST_SUITE_M/*
 MandatoryChecker.sh
 RUNME
-
+*.result
