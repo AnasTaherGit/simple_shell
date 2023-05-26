@@ -32,19 +32,22 @@ for file in "$test_folder"/test_ok/*; do
     fi
 done
 
+# update file list
+
+files=$(ls "$test_folder")
+
 # chmod checker.bash
 chmod u+x "$test_folder/checker.bash"
 
 # Run tests and save output to files, suppress result in terminal
 for file in $files; do
-    if [[ $file != "checker.bash" ]] && [[ $file != *.result ]]; then
+    if [[ $file != "checker.bash" ]] && [[ $file != *.result ]] && [[ $file != "test_ok" ]]; then
         echo "Running test $file"
         output=$("$test_folder/checker.bash" ./hsh "$test_folder/$file" 2>&1)
         echo "$output" > "$test_folder/$file.result"
         if [[ $output == "OK" ]]; then
             echo -e "${GREEN}$output${NC}"
-            # move test and result files to test_ok directory
-            mv "$test_folder/$file" "$test_folder/test_ok/$file"
+            # move result files to test_ok directory
             mv "$test_folder/$file.result" "$test_folder/test_ok/$file.result"
         else
             echo -e "${RED}NOT OK${NC}"

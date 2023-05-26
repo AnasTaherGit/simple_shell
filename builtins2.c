@@ -1,5 +1,5 @@
 #include "shell.h"
-#define MAX_PATH_LENGTH 4096
+
 /**
  * cd_change_directory - Changes the current working directory
  * @path: Path to change directory to
@@ -61,37 +61,44 @@ int cd_update_environment(const char *command_name)
  */
 int _cd_builtin(char **cmd_Args, char **main_argv)
 {
-	char *new_dir = NULL;
-	char current_dir[MAX_PATH_LENGTH];
+	char *new_dir, *cwd = NULL;
+	int display_path = 0;
 
-	getcwd(current_dir, sizeof(current_dir));
+	cwd = getcwd(NULL, 0);
+
 	if (cmd_Args[1] == NULL || _strcmp(cmd_Args[1], "~") == 0)
 		new_dir = _getenv("HOME");
-	else if (strcmp(cmd_Args[1], "-") == 0)
+	else if (_strcmp(cmd_Args[1], "-") == 0)
+	{
 		new_dir = _getenv("OLDPWD");
+		display_path = 1;
+	}
 	else
+	{
+		new_dir = malloc((_strlen(cmd_Args[1]) + 1) * sizeof(char));
 		_strcpy(new_dir, cmd_Args[1]);
+	}
+
 	if (new_dir == NULL)
 	{
-		setenv("PWD", current_dir, 1);
-		write(STDOUT_FILENO, current_dir, strlen(current_dir));
-		write(STDOUT_FILENO, "\n", 1);
 		free(new_dir);
-		return (0);
+		new_dir = getcwd(NULL, 0);
 	}
-	if (chdir(new_dir) != 0)
+	else if (chdir(new_dir) != 0)
 	{
 		write(STDERR_FILENO, main_argv[0], _strlen(main_argv[0]));
 		write(STDERR_FILENO, ": 1: cd: can't cd to ", 21);
-		write(STDERR_FILENO, cmd_Args[1], _strlen(cmd_Args[1]));
+		write(STDERR_FILENO, new_dir, _strlen(new_dir));
 		write(STDERR_FILENO, "\n", 1);
-		setenv("PWD", current_dir, 1);
 		free(new_dir);
 		return (1);
 	}
 	setenv("PWD", new_dir, 1);
-	setenv("OLDPWD", current_dir, 1);
-	write(STDOUT_FILENO, current_dir, strlen(current_dir));
-	write(STDOUT_FILENO, "\n", 1);
+	setenv("OLDPWD", cwd, 1);
+	if (display_path)
+	{
+		write(STDOUT_FILENO, new_dir, _strlen(new_dir));
+		write(STDOUT_FILENO, "\n", 1);
+	}
 	return (0);
 }
