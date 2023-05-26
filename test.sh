@@ -10,7 +10,7 @@ NC="\033[0m"  # No color
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -g -o hsh
 
 # Set test folder
-test_folder="tests_cd"
+test_folder="tests_path"
 
 # Get list of files in tests directory
 files=$(ls "$test_folder")

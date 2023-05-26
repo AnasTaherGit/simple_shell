@@ -38,7 +38,14 @@ char **_get_tokens(char *line, const char *delimiters)
 	char **command = NULL, *token = NULL, *tmp = NULL;
 	int token_count = 0, i = 0, j = 0;
 
-	token_count = count_tokens(line, delimiters);
+	if (line == NULL)
+	{
+		command = malloc(sizeof(char *) * 1);
+		command[0] = NULL;
+		return (command);
+	}
+	else
+		token_count = count_tokens(line, delimiters);
 	command = malloc(sizeof(char *) * (token_count + 1));
 	if (command == NULL)
 	{
